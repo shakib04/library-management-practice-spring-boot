@@ -1,0 +1,9 @@
+INSERT INTO SYSTEM_USER VALUES(null, 'shakib@mail.com', 'shakib', '123456');
+
+,
+    "created_by" : {
+    	"id" : 1,
+    	"email" : "shakib@email.com",
+    	"name" : "Shakib",
+    	"password" : "1234"
+    }

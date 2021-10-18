@@ -1,0 +1,5 @@
+getBooksTest() -> instead of size , assertion should be done every with every attributes of entity
+deleteBookByIdTest() -> delete() method of  BookService should be mocked .instead of checking how many times mock service called.
+deleteBookByIdTest() -> no assertion called
+
+Integration Test ==> mock service, check every value expected or not from response
