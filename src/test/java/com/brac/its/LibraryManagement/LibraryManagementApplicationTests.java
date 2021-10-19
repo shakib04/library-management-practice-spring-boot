@@ -61,8 +61,8 @@ class LibraryManagementApplicationTests {
 
 	@Test
 	public void deleteBookByIdTest(){
-		Optional<Book> b = bookRepository.findById(DEFAULT_BOOK_ID);
-		Mockito.when(bookService.delete(DEFAULT_BOOK_ID)).thenReturn(DEFAULT_BOOK_ID);
+		Optional<Book> b = bookRepository.findById(default_book.getId());
+		//Mockito.when(bookService.delete(default_book.getId())).thenReturn(DEFAULT_BOOK_ID);
 		Optional<Book> optionalBook = bookRepository.findById(DEFAULT_BOOK_ID);
 		Book book1 = null;
 		if (optionalBook.isPresent()){
@@ -71,5 +71,5 @@ class LibraryManagementApplicationTests {
 		Assertions.assertThat(book1).isNull();
 	}
 
-	
+
 }
