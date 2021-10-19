@@ -28,7 +28,7 @@ public class BookController {
         return bookService.getAllbook();
     }
 
-    @PostMapping("/book/create")
+    @PostMapping("/book")
     public Book store(@RequestBody Book book) {
         bookService.saveOrUpdate(book);
         log.info("Book Saved " + book);

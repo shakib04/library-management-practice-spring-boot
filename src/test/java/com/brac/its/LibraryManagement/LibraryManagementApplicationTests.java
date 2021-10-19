@@ -5,7 +5,8 @@ import com.brac.its.LibraryManagement.model.SystemUser;
 import com.brac.its.LibraryManagement.repository.BookRepository;
 import com.brac.its.LibraryManagement.sevice.BookService;
 import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
+//import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -29,25 +30,31 @@ class LibraryManagementApplicationTests {
 	@MockBean
 	private BookRepository bookRepository;
 
+	static SystemUser user = new SystemUser(1, "shakib", "shakib@mail.com", "1234");
+	static Book default_book = new Book(102, "Book 101 ", "Rakib", "Rock Pubs", 10, user);
+
 	@Test
 	public void getBooksTest(){
 		Mockito.when(bookRepository.findAll()).thenReturn(Stream.of(new Book(101, "Book 101 ", "Rakib", "Rock Pubs",10, new SystemUser(10001, "shakib@mail.com", "shakib", "1234")), new Book(102, "Book 102", "Rabbi", "Rock Pubs", 5, new SystemUser(10001, "shakib@mail.com", "shakib", "1234"))).collect(Collectors.toList()));
-
-		Assertions.assertEquals(2, bookService.getAllbook().size());
+		Assert.assertEquals(2, bookService.getAllbook().size());
 	}
 
 	@Test
 	public void saveBookTest(){
-		Book book = new Book(101, "Book 101 ", "Rakib", "Rock Pubs", 10, new SystemUser(10001, "shakib", "shakib@email.com", "1234"));
-		Mockito.when(bookRepository.save(book)).thenReturn(book);
-		Assert.assertEquals(book, bookService.saveOrUpdate(book));
+		Mockito.when(bookRepository.save(default_book)).thenReturn(default_book);
+		Assert.assertEquals(default_book, bookService.saveOrUpdate(default_book));
 	}
 
 	@Test
 	public void deleteBookByIdTest(){
-		Book book = new Book(101, "Book 101 ", "Rakib", "Rock Pubs", 10, new SystemUser(10001, "shakib", "shakib@mail.com", "1234"));
-		bookService.delete(book.getId());
-		Mockito.verify(bookRepository, Mockito.times(1)).deleteById(book.getId());
+		Book b = bookRepository.findById(default_book.getId()).get();
+		bookService.delete(b.getId());
+		Optional<Book> optionalBook = bookRepository.findById(b.getId());
+		Book book1 = null;
+		if (optionalBook.isPresent()){
+			book1 = optionalBook.get();
+		}
+		Assertions.assertThat(book1).isNull();
 	}
 
 
@@ -56,7 +63,6 @@ class LibraryManagementApplicationTests {
 		int id = 101;
 		Book b1 = new Book(101, "Book 101 ", "Rakib", "Rock Pubs",10, new SystemUser(10001, "shakib@mail.com", "shakib", "1234"));
 		Mockito.when(bookRepository.findById(id)).thenReturn(Optional.of(b1));
-
 	}
 
 	@Test
