@@ -26,13 +26,14 @@ public class BookService {
         return bookRepository.findById(id);
     }
 
-    public Book saveOrUpdate(Book book){
+    public Book save(Book book){
         bookRepository.save(book);
         return book;
     }
 
-    public void delete(int id){
+    public int delete(int id){
         bookRepository.deleteById(id);
+        return id;
     }
 
 

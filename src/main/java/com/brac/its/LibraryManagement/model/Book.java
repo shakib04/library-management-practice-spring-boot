@@ -1,5 +1,7 @@
 package com.brac.its.LibraryManagement.model;
 
+import lombok.NonNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,13 +13,16 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Column(nullable = false)
+    @NonNull
     private String name;
-    @Column
+    @Column(nullable = false)
     private String author;
-    @Column
+    @Column(nullable = false)
+    @NonNull
     private String publisher;
-    @Column
+    @Column(nullable = false)
+    @NonNull
     private int copies;
 
     @ManyToOne

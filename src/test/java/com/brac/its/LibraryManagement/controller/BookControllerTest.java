@@ -5,6 +5,11 @@ import com.brac.its.LibraryManagement.basicOperation.TestUtil;
 import com.brac.its.LibraryManagement.model.Book;
 import com.brac.its.LibraryManagement.model.SystemUser;
 import com.brac.its.LibraryManagement.repository.BookRepository;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.extern.java.Log;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +20,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = LibraryManagementApplication.class)
 @AutoConfigureMockMvc
+@Log
 @TestPropertySource(locations = "classpath:application.properties")
+
  class BookControllerTest {
 
     @Autowired
@@ -51,7 +60,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .andExpect(jsonPath("$.author").value("Rakib"))
                 .andExpect(jsonPath("$.publisher").value("Rock Pubs"))
                 .andExpect(jsonPath("$.copies").value(10));
-                //.andExpect(jsonPath("$.created_by").value(user));
+    }
+
+    @Test
+    public void getBookByNonExistingIdTest() throws Exception {
+        Book b1 = new Book(null, "Book 101", "Rakib", "Rock Pubs",10, user);
+        Book savedBook = bookRepository.saveAndFlush(b1);
+        int nonExistingId = savedBook.getId() + 1;
+
+        restConfigMockMvc.perform(get("http://localhost:8080/book/{id}", nonExistingId))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -71,6 +89,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     }
 
     @Test
+    @Transactional
     public void createBooksTest() throws Exception{
        String defualt_name = "Book 101";
        String defualt_author = "Rakib";
@@ -94,20 +113,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     }
 
     @Test
-    public void deleteBooksTest() throws Exception{
-        Book b1 = new Book(null, "Book 101", "Rakib", "Rock Pubs",10, user);
-        bookRepository.saveAndFlush(b1);
-        int databaseSizeBeforeDelete = bookRepository.findAll().size();
-
-        restConfigMockMvc.perform(delete("http://localhost:8080/book/{id}", b1.getId())
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        List<Book> bookList = bookRepository.findAll();
-        Assert.assertEquals(bookList.size(), databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
+    @Transactional
     public void updateBookTest() throws Exception{
         Book b1 = new Book(null, "Book 101", "Rakib", "Rock Pubs",10, user);
         bookRepository.saveAndFlush(b1);
@@ -123,11 +129,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         updatedBook.setAuthor(updatedAuthor);
         updatedBook.setPublisher(updatedPubs);
         updatedBook.setCopies(updatedCopies);
-        Book update = bookRepository.save(updatedBook);
 
         restConfigMockMvc.perform(put("http://localhost:8080/book")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(TestUtil.convertObjectToJsonBytes(update)))
+                        .content(convertObjectToJsonBytes(updatedBook)))
                 .andExpect(status().isOk());
         List<Book> bookList = bookRepository.findAll();
         assertThat(bookList).hasSize(tableSizeBeforeUpdate);
@@ -136,6 +141,73 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         assertThat(testBook.getAuthor()).isEqualTo(updatedAuthor);
         assertThat(testBook.getPublisher()).isEqualTo(updatedPubs);
         assertThat(testBook.getCopies()).isEqualTo(updatedCopies);
+    }
+
+    @Test
+    public void updateWithExistingId() throws Exception{
+        Book b1 = new Book(null, "Book 101", "Rakib", "Rock Pubs",10, user);
+        bookRepository.saveAndFlush(b1);
+
+        Book updatedBook = bookRepository.findById(b1.getId()).get();
+        updatedBook.setId(updatedBook.getId() + 1);
+        restConfigMockMvc.perform(put("http://localhost:8080/book")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJsonBytes(updatedBook)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void updateWithNullValue() throws Exception{
+        Book b1 = new Book(null, "Book 101", "Rakib", "Rock Pubs",10, user);
+        bookRepository.saveAndFlush(b1);
+        int tableSizeBeforeUpdate = bookRepository.findAll().size();
+
+        Book updatedBook = bookRepository.findById(b1.getId()).get();
+
+        updatedBook.setName(null);
+        restConfigMockMvc.perform(put("http://localhost:8080/book")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjectToJsonBytes(updatedBook)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void deleteBooksTest() throws Exception{
+        Book b1 = new Book(null, "Book 101", "Rakib", "Rock Pubs",10, user);
+        bookRepository.saveAndFlush(b1);
+        int databaseSizeBeforeDelete = bookRepository.findAll().size();
+
+        restConfigMockMvc.perform(delete("http://localhost:8080/book/{id}", b1.getId())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        List<Book> bookList = bookRepository.findAll();
+        Assert.assertEquals(bookList.size(), databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    public void deleteBookNonExistingId() throws Exception{
+        Book b1 = new Book(null, "Book 101", "Rakib", "Rock Pubs",10, user);
+        bookRepository.saveAndFlush(b1);
+        int databaseSizeBeforeDelete = bookRepository.findAll().size();
+
+        restConfigMockMvc.perform(delete("http://localhost:8080/book/{id}", b1.getId() + 1)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    private static final ObjectMapper mapper = createObjectMapper();
+
+    private static ObjectMapper createObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS, false);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        mapper.registerModule(new JavaTimeModule());
+        return mapper;
+    }
+
+    public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
+        return mapper.writeValueAsBytes(object);
     }
 
     private String createURLWithPort(String uri) {

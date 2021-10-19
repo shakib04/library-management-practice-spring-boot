@@ -6,6 +6,8 @@ import com.brac.its.LibraryManagement.repository.BookRepository;
 import com.brac.its.LibraryManagement.sevice.BookService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,35 +31,60 @@ public class BookController {
     }
 
     @PostMapping("/book")
-    public Book store(@RequestBody Book book) {
-        bookService.saveOrUpdate(book);
-        log.info("Book Saved " + book);
-        return book;
+    public ResponseEntity<Book> store(@RequestBody Book book) {
+        Book book2 = bookService.save(book);
+        log.info("Book Saved " + book2);
+        return new ResponseEntity<>(book2, HttpStatus.CREATED);
     }
 
     @GetMapping("/book/{id}")
-    public Optional<Book> getById(@PathVariable("id") int id) {
+    public ResponseEntity<Optional<Book>> getById(@PathVariable("id") int id) {
         log.info("Details of book, id = " + id);
-        return bookService.getBookById(id);
+        try {
+            if(bookService.getBookById(id).isPresent()){
+                return new ResponseEntity<>(bookService.getBookById(id), HttpStatus.OK);
+            }else{
+                throw new Exception();
+            }
+
+        }catch (Exception exception){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @PutMapping("/book")
-    public int update(@RequestBody Book book) {
-        log.info("Update a book :" + book.getId());
-        bookService.saveOrUpdate(book);
-        log.info("Book Info Updated" + book);
-        return book.getId();
+    public ResponseEntity<Book> update(@RequestBody Book book) {
+        try {
+            Optional<Book> optionalBook = bookService.getBookById(book.getId());
+            if (optionalBook.isPresent()){
+                log.info("Update a book :" + book.getId());
+                bookService.save(book);
+                log.info("Book Info Updated" + book);
+                return new ResponseEntity<>(book, HttpStatus.OK);
+            }else {
+                throw new Exception();
+            }
+
+        }catch (Exception exception){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/book/{id}")
-    public String delete(@PathVariable("id") int id) {
+    public ResponseEntity<Book> delete(@PathVariable("id") int id) {
         try {
-            bookService.delete(id);
-        } catch (Exception e) {
-            return "failed";
+            if(bookRepository.existsById(id)) {
+                bookService.delete(id);
+                log.info("deleted book, id = " + id);
+                return new ResponseEntity<>(null, HttpStatus.OK);
+            }else {
+                throw new Exception();
+            }
         }
-        log.info("Book info updated for " + id);
-        return "success";
+        catch (Exception exception){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     public String hello(String text){
