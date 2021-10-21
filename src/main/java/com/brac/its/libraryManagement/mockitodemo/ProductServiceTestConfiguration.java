@@ -1,4 +1,4 @@
-package com.brac.its.LibraryManagement.mockitodemo;
+package com.brac.its.libraryManagement.mockitodemo;
 
 
 import org.springframework.context.annotation.Bean;

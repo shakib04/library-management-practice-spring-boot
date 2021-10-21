@@ -1,4 +1,4 @@
-package com.brac.its.LibraryManagement.basicOperation;
+package com.brac.its.libraryManagement.basicOperation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

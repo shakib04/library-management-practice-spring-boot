@@ -1,10 +1,10 @@
-package com.brac.its.LibraryManagement.controller;
+package com.brac.its.libraryManagement.controller;
 
-import com.brac.its.LibraryManagement.LibraryManagementApplication;
-import com.brac.its.LibraryManagement.basicOperation.TestUtil;
-import com.brac.its.LibraryManagement.model.Book;
-import com.brac.its.LibraryManagement.model.SystemUser;
-import com.brac.its.LibraryManagement.repository.BookRepository;
+import com.brac.its.libraryManagement.LibraryManagementApplication;
+import com.brac.its.libraryManagement.basicOperation.TestUtil;
+import com.brac.its.libraryManagement.model.Book;
+import com.brac.its.libraryManagement.model.SystemUser;
+import com.brac.its.libraryManagement.repository.BookRepository;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -101,7 +101,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
        restConfigMockMvc.perform(post("http://localhost:8080/book")
                .contentType(MediaType.APPLICATION_JSON)
                .content(TestUtil.convertObjectToJsonBytes(b)))
-               .andExpect(status().isOk());
+               .andExpect(status().isCreated());
        List<Book> bookList = bookRepository.findAll();
        Assert.assertEquals(bookList.size(), sizeBeforeCreate + 1);
        assertThat(bookList).hasSize(sizeBeforeCreate + 1);
@@ -156,7 +156,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 .andExpect(status().isNotFound());
     }
 
-    @Test
+     @Test
     public void updateWithNullValue() throws Exception{
         Book b1 = new Book(null, "Book 101", "Rakib", "Rock Pubs",10, user);
         bookRepository.saveAndFlush(b1);
@@ -172,6 +172,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     }
 
     @Test
+    @Transactional
     public void deleteBooksTest() throws Exception{
         Book b1 = new Book(null, "Book 101", "Rakib", "Rock Pubs",10, user);
         bookRepository.saveAndFlush(b1);
@@ -186,6 +187,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     }
 
     @Test
+    @Transactional
     public void deleteBookNonExistingId() throws Exception{
         Book b1 = new Book(null, "Book 101", "Rakib", "Rock Pubs",10, user);
         bookRepository.saveAndFlush(b1);

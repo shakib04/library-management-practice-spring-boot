@@ -1,10 +1,12 @@
-package com.brac.its.LibraryManagement.basicOperation;
+package com.brac.its.libraryManagement.basicOperation;
 
+import lombok.extern.java.Log;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+@Log
 class FibonacciSeriesTest {
 
     @Test
@@ -23,7 +25,10 @@ class FibonacciSeriesTest {
                 34
         };
         FibonacciSeries fibonacciSeries = new FibonacciSeries();
-        ArrayList<Integer> nums = fibonacciSeries.getFibonacciOfANumber(10);
+        int count = 10;
+        ArrayList<Integer> nums = fibonacciSeries.getFibonacciOfANumber(count);
+        log.info(nums.toString());
+        Assert.assertEquals(java.util.Optional.of(nums.get(count - 1)), java.util.Optional.of(nn[count - 1]));
         Assert.assertEquals(nn.length, nums.toArray().length);
     }
 }

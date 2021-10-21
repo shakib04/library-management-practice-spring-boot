@@ -1,4 +1,4 @@
-package com.brac.its.LibraryManagement.model;
+package com.brac.its.libraryManagement.model;
 
 import javax.persistence.*;
 import java.util.Set;
