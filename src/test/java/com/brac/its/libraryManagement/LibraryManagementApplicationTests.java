@@ -37,9 +37,10 @@ class LibraryManagementApplicationTests {
 
     @Test
     public void getBooksTest() {
-        Mockito.when(bookRepository.findAll())
+        Mockito.when(bookService.getAllbook())
                 .thenReturn(Stream.of(new Book(101, "Book 101 ", "Rakib", "Rock Pubs", 10, new SystemUser(10001, "shakib@mail.com", "shakib", "1234")),
                         new Book(102, "Book 102", "Rabbi", "Rock Pubs", 5, new SystemUser(10001, "shakib@mail.com", "shakib", "1234"))).collect(Collectors.toList()));
+
         Assert.assertEquals(2, bookService.getAllbook().size());
     }
 
@@ -59,7 +60,7 @@ class LibraryManagementApplicationTests {
 
     @Test
     public void saveBookTest() {
-        Mockito.when(bookRepository.save(default_book)).thenReturn(withId(default_book));
+        Mockito.when(bookService.save(default_book)).thenReturn(withId(default_book));
         DEFAULT_BOOK_ID = default_book.getId();
         Assert.assertEquals(default_book, bookService.save(default_book));
     }

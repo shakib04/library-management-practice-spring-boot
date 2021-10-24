@@ -15,12 +15,14 @@ import java.util.Optional;
 @Log4j2
 public class BookService {
 
+    @Autowired
     BookRepository bookRepository;
 
     public List<Book> getAllbook() {
-        List<Book> books = new ArrayList<Book>();
+        List<Book> books = new ArrayList<>();
         bookRepository.findAll().forEach(book -> books.add(book));
         System.out.println("getting data from db:" + books);
+        log.debug(books);
         return books;
     }
 
@@ -30,17 +32,26 @@ public class BookService {
             if (optionalBook.isPresent()) {
                 return optionalBook;
             } else {
-                return null;
-                //throw new ResourceNOtFoundException("not found.");
+                throw new ResourceNOtFoundException("not found.");
             }
-        } catch (Exception exception) {
-            throw new ResourceNOtFoundException("not found.");
+        } catch (ResourceNOtFoundException exception) {
+            //return exception;
+            throw exception;
         }
     }
 
     public Book save(Book book) {
-        bookRepository.save(book);
-        return book;
+       try {
+           if(book.getName() != null && !book.getName().isEmpty() && book.getName().length() >  5) {
+               bookRepository.save(book);
+               return book;
+           }else{
+               throw new ResourceNOtFoundException("");
+           }
+       }catch (ResourceNOtFoundException exception){
+           return null;
+       }
+
     }
 
     public void delete(int id) {
