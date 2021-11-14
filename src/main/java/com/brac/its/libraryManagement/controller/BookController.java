@@ -17,8 +17,8 @@ import java.util.Optional;
 public class BookController {
 
 
-    @Autowired
-    BookRepository bookRepository;
+    /*@Autowired
+    BookRepository bookRepository;*/
 
     @Autowired
     BookService bookService;
