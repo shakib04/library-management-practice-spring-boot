@@ -14,44 +14,41 @@ import java.util.Optional;
 
 @Log4j2
 @RestController
+@RequestMapping("book")
 public class BookController {
-
-
-    /*@Autowired
-    BookRepository bookRepository;*/
 
     @Autowired
     BookService bookService;
 
-    @GetMapping("/book")
+    @GetMapping("/")
     public List<Book> allBooks() {
         return bookService.getAllbook();
     }
 
-    @GetMapping("/book/{id}")
+    @GetMapping("/{id}")
     public Optional<Book> getById(@PathVariable("id") int id) {
         log.debug("Details of book, id = " + id);
         return bookService.getBookById(id);
     }
 
-    @GetMapping("/book/author/{author}")
+    @GetMapping("/author/{author}")
     public List<Book> getBooksByAuthor(@PathVariable String author) {
         return bookService.getBooksByAuthor(author);
     }
 
-    @PostMapping("/book")
+    @PostMapping("/")
     public ResponseEntity<Book> store(@RequestBody Book book) {
         Book book2 = bookService.save(book);
         log.debug("Book Saved " + book2);
         return new ResponseEntity<>(book2, HttpStatus.CREATED);
     }
 
-    @PutMapping("/book")
+    @PutMapping("/")
     public Book update(@RequestBody Book book) {
         return bookService.update(book);
     }
 
-    @DeleteMapping("/book/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") int id) {
         bookService.delete(id);
     }
