@@ -7,7 +7,6 @@ import com.brac.its.libraryManagement.sevice.BookService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,18 +36,15 @@ class LibraryManagementApplicationTests {
 
     @Test
     public void getBooksTest() {
-        Mockito.when(bookService.getAllbook())
+        Mockito.when(bookService.getAllBooks())
                 .thenReturn(Stream.of(new Book(101, "Book 101 ", "Rakib", "Rock Pubs", 10, new SystemUser(10001, "shakib@mail.com", "shakib", "1234")),
                         new Book(102, "Book 102", "Rabbi", "Rock Pubs", 5, new SystemUser(10001, "shakib@mail.com", "shakib", "1234"))).collect(Collectors.toList()));
 
-        Assert.assertEquals(2, bookService.getAllbook().size());
+        Assert.assertEquals(2, bookService.getAllBooks().size());
     }
 
     @Test
     public void getBooksByAuthorTest() {
-
-        //
-        // Assert.assertEquals();
     }
 
     @Test

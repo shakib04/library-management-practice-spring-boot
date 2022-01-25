@@ -1,7 +1,6 @@
 package com.brac.its.libraryManagement.controller;
 
 import com.brac.its.libraryManagement.model.Book;
-import com.brac.its.libraryManagement.repository.BookRepository;
 import com.brac.its.libraryManagement.sevice.BookService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +13,16 @@ import java.util.Optional;
 
 @Log4j2
 @RestController
-@RequestMapping("book")
+@RequestMapping("/book")
 public class BookController {
 
     @Autowired
     BookService bookService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<Book> allBooks() {
-        return bookService.getAllbook();
+        log.debug("REST Request to get book list");
+        return bookService.getAllBooks();
     }
 
     @GetMapping("/{id}")
@@ -36,14 +36,15 @@ public class BookController {
         return bookService.getBooksByAuthor(author);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Book> store(@RequestBody Book book) {
+        log.debug("REST request to save a book");
         Book book2 = bookService.save(book);
-        log.debug("Book Saved " + book2);
+        log.info("Book Saved " + book2);
         return new ResponseEntity<>(book2, HttpStatus.CREATED);
     }
 
-    @PutMapping("/")
+    @PutMapping("")
     public Book update(@RequestBody Book book) {
         return bookService.update(book);
     }
@@ -51,5 +52,16 @@ public class BookController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") int id) {
         bookService.delete(id);
+    }
+
+    /**
+     *
+     * @param name
+     * @return list of books by name
+     */
+    @GetMapping("/find/{name}")
+    public ResponseEntity<List<Book>> getBooksByName(@PathVariable String name){
+        log.debug("REST request to get Books by name");
+         return ResponseEntity.ok().body(bookService.getBooksByName(name));
     }
 }

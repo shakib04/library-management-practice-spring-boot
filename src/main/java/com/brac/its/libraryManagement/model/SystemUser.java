@@ -19,7 +19,7 @@ public class SystemUser {
     @Column
     private String password;
 
-    @OneToMany(mappedBy = "systemUser", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "createdBy", fetch = FetchType.EAGER)
     private Set<Book> book;
 
     public SystemUser(int id, String name, String email, String password) {

@@ -1,11 +1,11 @@
-package com.brac.its.libraryManagement.controller;
+package com.brac.its.libraryManagement.runtimeExceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNOtFoundException extends RuntimeException {
-    public ResourceNOtFoundException(String s) {
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String s) {
         super(s);
     }
 }

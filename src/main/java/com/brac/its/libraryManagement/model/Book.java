@@ -26,20 +26,24 @@ public class Book {
     private int copies;
 
     @ManyToOne
-    @JoinColumn(name = "created_by", referencedColumnName = "id")
-    private SystemUser systemUser;
+    @JoinColumn(name = "created_by_id", referencedColumnName = "id")
+    private SystemUser createdBy;
+
+    @ManyToOne
+    @JoinColumn(name = "publisher_id", referencedColumnName = "id")
+    private Publisher publisherDetails;
 
     public Book(){
 
     }
 
-    public Book(Integer id, String name, String author, String publisher, int copies, SystemUser systemUser) {
+    public Book(Integer id, String name, String author, String publisher, int copies, SystemUser createdBy) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.publisher = publisher;
         this.copies = copies;
-        this.systemUser = systemUser;
+        this.createdBy = createdBy;
     }
 
     public Integer getId() {
@@ -57,8 +61,8 @@ public class Book {
     public int getCopies() {
         return copies;
     }
-    public SystemUser getCreated_by() {
-        return this.systemUser;
+    public SystemUser getCreatedBy() {
+        return this.createdBy;
     }
     public void setId(Integer id) {
         this.id = id;
@@ -75,8 +79,16 @@ public class Book {
     public void setCopies(int copies) {
         this.copies = copies;
     }
-    public void setCreated_by(SystemUser systemUser) {
-        this.systemUser = systemUser;
+    public void setCreatedBy(SystemUser createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Publisher getPublisherDetails() {
+        return publisherDetails;
+    }
+
+    public void setPublisherDetails(Publisher publisherDetails) {
+        this.publisherDetails = publisherDetails;
     }
 
     @Override
@@ -87,7 +99,8 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", publisher='" + publisher + '\'' +
                 ", copies=" + copies +
-                ", systemUser=" + systemUser +
+                ", createdBy=" + createdBy +
+                ", publisherDetails=" + publisherDetails +
                 '}';
     }
 }
