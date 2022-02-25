@@ -1,4 +1,4 @@
-package com.brac.its.libraryManagement;
+package com.brac.its.libraryManagement.dto;
 
 public class PublisherDTO {
 
