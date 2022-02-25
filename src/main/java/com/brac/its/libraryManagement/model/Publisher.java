@@ -14,7 +14,7 @@ public class Publisher {
     private String address;
     private String govtLicence;
 
-    @OneToMany(mappedBy = "publisherDetails")
+    @OneToMany(mappedBy = "publisher")
     private Set<Book> book;
 
     public Long getId() {

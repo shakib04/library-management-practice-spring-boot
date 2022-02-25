@@ -67,18 +67,15 @@ public class BookService {
     public boolean isValidBook(Book book) {
         String bookName = book.getName();
         String bookAuthor = book.getAuthor();
-        String bookPublisher = book.getPublisher();
         Integer bookCopies = book.getCopies();
         SystemUser createdBy = book.getCreatedBy();
         log.debug("Validating Book Data");
         if (bookName != null &&
                 bookAuthor != null &&
-                bookPublisher != null &&
                 bookCopies != null &&
                 createdBy != null &&
                 bookName.length() > 3 &&
                 bookAuthor.length() > 3 &&
-                bookPublisher.length() > 3 &&
                 bookCopies > 0
         ) {
             return true;

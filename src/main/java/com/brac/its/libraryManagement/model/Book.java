@@ -20,9 +20,6 @@ public class Book {
     private String author;
     @Column(nullable = false)
     @NonNull
-    private String publisher;
-    @Column(nullable = false)
-    @NonNull
     private int copies;
 
     @ManyToOne
@@ -31,7 +28,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "publisher_id", referencedColumnName = "id")
-    private Publisher publisherDetails;
+    private Publisher publisher;
 
     public Book(){
 
@@ -41,7 +38,6 @@ public class Book {
         this.id = id;
         this.name = name;
         this.author = author;
-        this.publisher = publisher;
         this.copies = copies;
         this.createdBy = createdBy;
     }
@@ -52,12 +48,34 @@ public class Book {
     public String getName() {
         return name;
     }
+    public Book name(String name){
+        this.name = name;
+        return this;
+    }
+    public Book author(String author){
+        this.author = author;
+        return this;
+    }
+
+    public Book copies(int copies){
+        this.copies = copies;
+        return this;
+    }
+
+    public Book systemUser(SystemUser systemUser){
+        this.createdBy = systemUser;
+        return this;
+    }
+
+    public Book publisherDetails(Publisher publisher){
+        this.publisher = publisher;
+        return this;
+    }
+
     public String getAuthor() {
         return author;
     }
-    public String getPublisher() {
-        return publisher;
-    }
+
     public int getCopies() {
         return copies;
     }
@@ -73,9 +91,7 @@ public class Book {
     public void setAuthor(String author) {
         this.author = author;
     }
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
+
     public void setCopies(int copies) {
         this.copies = copies;
     }
@@ -83,12 +99,12 @@ public class Book {
         this.createdBy = createdBy;
     }
 
-    public Publisher getPublisherDetails() {
-        return publisherDetails;
+    public Publisher getPublisher() {
+        return publisher;
     }
 
-    public void setPublisherDetails(Publisher publisherDetails) {
-        this.publisherDetails = publisherDetails;
+    public void setPublisher(Publisher publisherDetails) {
+        this.publisher = publisherDetails;
     }
 
     @Override
@@ -97,10 +113,9 @@ public class Book {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
-                ", publisher='" + publisher + '\'' +
                 ", copies=" + copies +
                 ", createdBy=" + createdBy +
-                ", publisherDetails=" + publisherDetails +
+                ", publisherDetails=" + publisher +
                 '}';
     }
 }

@@ -123,7 +123,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
        Book testBook = bookList.get(bookList.size() -1);
        assertThat(testBook.getName()).isEqualTo(defult_name);
        assertThat(testBook.getAuthor()).isEqualTo(defualt_author);
-       assertThat(testBook.getPublisher()).isEqualTo(defualt_pubs);
        assertThat(testBook.getCopies()).isEqualTo(default_copies);
     }
 
@@ -142,7 +141,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         int updatedCopies = 5;
         updatedBook.setName(updatedName);
         updatedBook.setAuthor(updatedAuthor);
-        updatedBook.setPublisher(updatedPubs);
         updatedBook.setCopies(updatedCopies);
 
         restConfigMockMvc.perform(put("http://localhost:8080/book")
@@ -154,7 +152,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         Book testBook = bookList.get(bookList.size() - 1);
         assertThat(testBook.getName()).isEqualTo(updatedName);
         assertThat(testBook.getAuthor()).isEqualTo(updatedAuthor);
-        assertThat(testBook.getPublisher()).isEqualTo(updatedPubs);
         assertThat(testBook.getCopies()).isEqualTo(updatedCopies);
     }
 
