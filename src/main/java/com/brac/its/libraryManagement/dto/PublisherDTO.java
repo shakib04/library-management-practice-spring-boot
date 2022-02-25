@@ -7,10 +7,4 @@ public class PublisherDTO {
     private String address;
 
     private String govtLicence;
-
-    private Integer bookId;
-    private String bookName;
-    private String bookAuthor;
-    private String bookPublisher;
-    private int book;
 }
