@@ -1,4 +1,4 @@
-package com.brac.its.libraryManagement.sevice;
+package com.brac.its.libraryManagement.service;
 
 import com.brac.its.libraryManagement.model.SystemUser;
 import com.brac.its.libraryManagement.runtimeExceptions.InvalidDataException;

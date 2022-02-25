@@ -2,6 +2,7 @@ package com.brac.its.libraryManagement.controller;
 
 import com.brac.its.libraryManagement.LibraryManagementApplication;
 import com.brac.its.libraryManagement.basicOperation.TestUtil;
+import com.brac.its.libraryManagement.controller.helperUtil.MyApplicationDefaultConfig;
 import com.brac.its.libraryManagement.model.Book;
 import com.brac.its.libraryManagement.model.SystemUser;
 import com.brac.its.libraryManagement.repository.BookRepository;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.java.Log;
 import org.junit.Assert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,15 +47,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    MyApplicationDefaultConfig defaultConfig;
+
     static SystemUser user = new SystemUser(1, "shakib", "shakib@mail.com", "1234");
 
+    static String RESOURCE_URL = "";
+    private static final String  ENTITY_NAME = "book";
+
+    @BeforeEach
+    public void init() throws UnknownHostException {
+        //http://localhost:8082/book/
+        RESOURCE_URL = defaultConfig.getHostAddress() + "/" + ENTITY_NAME  +"/";
+    }
+
     @Test
-    public void getBookByIdTest() throws Exception {
+    public void getBookById() throws Exception {
 
         Book b1 = new Book(null, "Book 101", "Rakib", "Rock Pubs",10, user);
         Book savedBook = bookRepository.saveAndFlush(b1);
 
-        restConfigMockMvc.perform(get("http://localhost:8080/book/{id}", savedBook.getId()))
+        restConfigMockMvc.perform(get(RESOURCE_URL+"/{id}", savedBook.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.id").value(b1.getId()))
@@ -91,7 +106,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     @Transactional
     public void createBooksTest() throws Exception{
-       String defualt_name = "Book 101";
+       String defult_name = "Book 101";
        String defualt_author = "Rakib";
        String defualt_pubs = "Rakib";
        int default_copies = 10;
@@ -106,7 +121,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
        Assert.assertEquals(bookList.size(), sizeBeforeCreate + 1);
        assertThat(bookList).hasSize(sizeBeforeCreate + 1);
        Book testBook = bookList.get(bookList.size() -1);
-       assertThat(testBook.getName()).isEqualTo(defualt_name);
+       assertThat(testBook.getName()).isEqualTo(defult_name);
        assertThat(testBook.getAuthor()).isEqualTo(defualt_author);
        assertThat(testBook.getPublisher()).isEqualTo(defualt_pubs);
        assertThat(testBook.getCopies()).isEqualTo(default_copies);

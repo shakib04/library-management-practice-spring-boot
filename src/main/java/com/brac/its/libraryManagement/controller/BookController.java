@@ -1,7 +1,8 @@
 package com.brac.its.libraryManagement.controller;
 
 import com.brac.its.libraryManagement.model.Book;
-import com.brac.its.libraryManagement.sevice.BookService;
+import com.brac.its.libraryManagement.repository.BookRepository;
+import com.brac.its.libraryManagement.service.BookService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Log4j2
 @RestController
@@ -19,6 +20,9 @@ public class BookController {
     @Autowired
     BookService bookService;
 
+    @Autowired
+    BookRepository bookRepository;
+
     @GetMapping("")
     public List<Book> allBooks() {
         log.debug("REST Request to get book list");
@@ -26,9 +30,10 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Book> getById(@PathVariable("id") int id) {
+    public CompletableFuture<Book> getById(@PathVariable("id") int id) {
+        log.debug("CompletableFuture allows to truly synchronous operation ");
         log.debug("Details of book, id = " + id);
-        return bookService.getBookById(id);
+        return bookRepository.findBookById(id);
     }
 
     @GetMapping("/author/{author}")
