@@ -39,9 +39,6 @@ public class FileHandleController {
   public MultipartFile handleFileUpload(@RequestParam("file") MultipartFile file) {
 
     storageService.store(file);
-    /*redirectAttributes.addFlashAttribute("message",
-            "You successfully uploaded " + file.getOriginalFilename() + "!");*/
-
     return file;
   }
 }

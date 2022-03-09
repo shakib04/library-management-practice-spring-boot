@@ -50,7 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Autowired
     MyApplicationDefaultConfig defaultConfig;
 
-    static SystemUser user = new SystemUser(1, "shakib", "shakib@mail.com", "1234");
+    static SystemUser user = new SystemUser(1L, "shakib", "shakib@mail.com", "1234");
 
     static String RESOURCE_URL = "";
     private static final String  ENTITY_NAME = "book";

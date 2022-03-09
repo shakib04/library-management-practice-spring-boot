@@ -1,6 +1,7 @@
 package com.brac.its.libraryManagement.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -9,7 +10,7 @@ public class SystemUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column
     private String name;
@@ -19,10 +20,10 @@ public class SystemUser {
     @Column
     private String password;
 
-    @OneToMany(mappedBy = "createdBy", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "createdBy", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Book> book;
 
-    public SystemUser(int id, String name, String email, String password) {
+    public SystemUser(Long id, String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -33,11 +34,11 @@ public class SystemUser {
 
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -65,4 +66,16 @@ public class SystemUser {
         this.password = password;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SystemUser that = (SystemUser) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(book, that.book);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, password, book);
+    }
 }

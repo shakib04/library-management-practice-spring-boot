@@ -16,6 +16,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
      List<Book> findBookByName(String name);
 
+     @Query(value = "select book from Book book where book.name regexp :name", nativeQuery = true)
+     List<Book> searchBookByName(String name);
+
      @Query(value = "select model.copies from Book model where model.id = 1")
      int getBookCopies();
 }

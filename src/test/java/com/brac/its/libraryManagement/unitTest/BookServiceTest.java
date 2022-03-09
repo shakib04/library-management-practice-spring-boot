@@ -1,6 +1,13 @@
 package com.brac.its.libraryManagement.unitTest;
 
+import com.brac.its.libraryManagement.builderClass.BookBuilder;
+import com.brac.its.libraryManagement.builderClass.PublisherBuilder;
+import com.brac.its.libraryManagement.model.Book;
+import com.brac.its.libraryManagement.model.Publisher;
+import com.brac.its.libraryManagement.model.SystemUser;
 import com.brac.its.libraryManagement.repository.BookRepository;
+import com.brac.its.libraryManagement.repository.PublisherRepository;
+import com.brac.its.libraryManagement.repository.SystemUserRepository;
 import com.brac.its.libraryManagement.service.BookService;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,9 +18,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BookServiceUT {
+@SpringBootTest
+public class BookServiceTest {
 
     public static final String NEW_BOOK_ISBN = "A123213";
     public static final String OLD_BOOK_ISBN = "Z123213";
@@ -23,6 +36,15 @@ public class BookServiceUT {
 
     @InjectMocks
     BookService bookService;
+
+    @Autowired
+    SystemUserRepository systemUserRepository;
+
+    @Autowired
+    BookRepository bookRepository2;
+
+    @Autowired
+    PublisherRepository publisherRepository;
 
     @BeforeEach
     void setUp(){
@@ -54,5 +76,20 @@ public class BookServiceUT {
         Mockito.when(bookRepository.getBookCopies()).thenReturn(10);
         boolean result = bookService.isBookStockOut();
         Assert.assertEquals(false, result);
+    }
+
+    @Test
+    public void searchBookByName(){
+        Book book = BookBuilder.getBook();
+        book.name("my name is khan");
+        /*SystemUser savedSystemUser = systemUserRepository.saveAndFlush(book.getCreatedBy());
+        Publisher savedPublisher = publisherRepository.saveAndFlush(PublisherBuilder.getPublisher());
+
+        book.systemUser(savedSystemUser);
+        book.publisherDetails(savedPublisher);
+
+        Book savedBook = bookRepository2.saveAndFlush(book);*/
+        List<Book> foundBooks = bookRepository2.searchBookByName("khan");
+        Assert.assertEquals(foundBooks.size() > 0, true);
     }
 }

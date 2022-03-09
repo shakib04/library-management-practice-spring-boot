@@ -42,6 +42,10 @@ public class BookService {
         return false;
     }
 
+    public List<Book> searchBookByName(String name){
+        return bookRepository.searchBookByName(name);
+    }
+
     public Optional<Book> getBookById(int id) {
         try {
             Optional<Book> optionalBook = bookRepository.findById(id);

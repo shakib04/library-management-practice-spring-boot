@@ -30,15 +30,15 @@ class LibraryManagementApplicationTests {
     @MockBean
     private BookRepository bookRepository;
     static Integer DEFAULT_BOOK_ID = 1;
-    static SystemUser user = new SystemUser(1, "shakib", "shakib@mail.com", "1234");
+    static SystemUser user = new SystemUser(1L, "shakib", "shakib@mail.com", "1234");
 
     static Book default_book = new Book(DEFAULT_BOOK_ID, "Book 101 ", "Rakib", "Rock Pubs", 10, user);
 
     @Test
     public void getBooksTest() {
         Mockito.when(bookService.getAllBooks())
-                .thenReturn(Stream.of(new Book(101, "Book 101 ", "Rakib", "Rock Pubs", 10, new SystemUser(10001, "shakib@mail.com", "shakib", "1234")),
-                        new Book(102, "Book 102", "Rabbi", "Rock Pubs", 5, new SystemUser(10001, "shakib@mail.com", "shakib", "1234"))).collect(Collectors.toList()));
+                .thenReturn(Stream.of(new Book(101, "Book 101 ", "Rakib", "Rock Pubs", 10, new SystemUser(10001L, "shakib@mail.com", "shakib", "1234")),
+                        new Book(102, "Book 102", "Rabbi", "Rock Pubs", 5, new SystemUser(10001L, "shakib@mail.com", "shakib", "1234"))).collect(Collectors.toList()));
 
         Assert.assertEquals(2, bookService.getAllBooks().size());
     }
@@ -50,7 +50,7 @@ class LibraryManagementApplicationTests {
     @Test
     public void getBookByIdTest() {
         int id = 101;
-        Book b1 = new Book(101, "Book 101 ", "Rakib", "Rock Pubs", 10, new SystemUser(10001, "shakib@mail.com", "shakib", "1234"));
+        Book b1 = new Book(101, "Book 101 ", "Rakib", "Rock Pubs", 10, new SystemUser(10001L, "shakib@mail.com", "shakib", "1234"));
         Mockito.when(bookRepository.findById(id)).thenReturn(Optional.of(b1));
     }
 
