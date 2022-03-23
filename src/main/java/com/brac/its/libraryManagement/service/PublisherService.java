@@ -1,5 +1,6 @@
 package com.brac.its.libraryManagement.service;
 
+import com.brac.its.libraryManagement.dto.PublisherBooksDTO;
 import com.brac.its.libraryManagement.model.Publisher;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface PublisherService {
     Publisher create(Publisher publisher);
     Publisher update(Publisher publisher);
     void delete(Long id);
+    List<PublisherBooksDTO> getPublisherBookList();
 }

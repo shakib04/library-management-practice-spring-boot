@@ -9,9 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Log4j2
@@ -122,5 +120,26 @@ public class BookService {
 
     public List<Book> getBooksByName(String name){
        return bookRepository.findBookByName(name);
+    }
+
+    public List<Book> sortBooksByName(){
+        List<Book> books = new ArrayList<>();
+        books.add(new Book(1, "Shakib 75", "Utpol Suvro", "1122", 2, new SystemUser()));
+        books.add(new Book(2, "Akib 75", "Utpol Suvro", "2212", 2, new SystemUser()));
+        books.add(new Book(3, "Joynal 75", "Utpol Suvro", "1011", 2, new SystemUser()));
+        books.add(new Book(4, "Masum 75", "Utpol Suvro", "2011", 2, new SystemUser()));
+
+
+        /*Collections.sort(books, new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });*/
+
+         Collections.sort(books, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+
+        //Collections.sort(books, (x, y) -> x.getName().compareTo(y.getName()));
+         return books;
     }
 }

@@ -1,13 +1,14 @@
 package com.brac.its.libraryManagement.service.impl;
 
+import com.brac.its.libraryManagement.dto.PublisherBooksDTO;
+import com.brac.its.libraryManagement.model.Book;
 import com.brac.its.libraryManagement.model.Publisher;
 import com.brac.its.libraryManagement.repository.PublisherRepository;
 import com.brac.its.libraryManagement.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PublisherServiceImpl implements PublisherService {
@@ -39,5 +40,26 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public void delete(Long id) {
 
+    }
+
+    @Override
+    public List<PublisherBooksDTO> getPublisherBookList() {
+        List<PublisherBooksDTO> publisherBooksDTOList = new ArrayList<>();
+
+        publisherBooksDTOList.add(new PublisherBooksDTO(new Publisher("Rabbil", "sdsad", "323123"), new ArrayList<Book>()));
+        publisherBooksDTOList.add(new PublisherBooksDTO(new Publisher("Kabila", "sdsad", "323123"), new ArrayList<Book>()));
+        publisherBooksDTOList.add(new PublisherBooksDTO(new Publisher("Mishu", "sdsad", "323123"), new ArrayList<Book>()));
+
+        // documentation for sorting using Comparator
+        //// https://www.techiedelight.com/sort-list-of-objects-using-comparator-java/
+        Collections.sort(publisherBooksDTOList, new Comparator<PublisherBooksDTO>() {
+            @Override
+            public int compare(PublisherBooksDTO o1, PublisherBooksDTO o2) {
+                return o1.getPublisher().getName().compareTo(o2.getPublisher().getName());
+            }
+        });
+
+
+        return publisherBooksDTOList;
     }
 }

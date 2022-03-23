@@ -92,4 +92,10 @@ public class BookServiceTest {
         List<Book> foundBooks = bookRepository2.searchBookByName("khan");
         Assert.assertEquals(foundBooks.size() > 0, true);
     }
+
+    @Test
+    public void sortBooksByName(){
+        List<Book> result = bookService.sortBooksByName();
+        Assert.assertEquals(result.get(0).getName(), "Akib 75");
+    }
 }
