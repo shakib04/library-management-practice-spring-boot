@@ -59,6 +59,10 @@ public class PublisherServiceImpl implements PublisherService {
             }
         });
 
+        //publisherBooksDTOList.forEach(x-> System.out.println(x));
+        // Collections.sort(publisherBooksDTOList, (o, b) -> o.getPublisher().getName().compareTo(b.getPublisher().getName()));
+        // can be converted with Comparator.comparing
+        Collections.sort(publisherBooksDTOList, Comparator.comparing(o -> o.getPublisher().getName()));
 
         return publisherBooksDTOList;
     }
