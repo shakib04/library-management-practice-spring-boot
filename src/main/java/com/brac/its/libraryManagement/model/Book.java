@@ -19,7 +19,6 @@ public class Book {
     @Column(nullable = false)
     private String author;
     @Column(nullable = false)
-    @NonNull
     private int copies;
 
     @ManyToOne
