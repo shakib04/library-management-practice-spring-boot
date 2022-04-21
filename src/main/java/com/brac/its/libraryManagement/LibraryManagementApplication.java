@@ -1,15 +1,22 @@
 package com.brac.its.libraryManagement;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @SpringBootApplication
+@Log4j2
 public class LibraryManagementApplication {
 
 	public static void main(String[] args) {
@@ -31,5 +38,20 @@ public class LibraryManagementApplication {
 		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 		return new CorsFilter(urlBasedCorsConfigurationSource);
 	}
+
+	@Scheduled(fixedRate = 2000L)
+	void someJob(){
+		log.debug("Time Reminder");
+		log.info("kjhkjh");
+		log.warn("bmnbmnbnm");
+		System.out.println("Now is " + new Date());
+	}
+
+}
+
+@Configuration
+@EnableScheduling
+@ConditionalOnProperty(name = "", matchIfMissing = true)
+class SchedulingConfiguration{
 
 }
