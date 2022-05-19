@@ -16,13 +16,15 @@ public class Book {
     @Column(nullable = false)
     @NonNull
     private String name;
+
     @Column(nullable = false)
     private String author;
+
     @Column(nullable = false)
     @NonNull
     private String publisher;
+
     @Column(nullable = false)
-    @NonNull
     private int copies;
 
     @ManyToOne
