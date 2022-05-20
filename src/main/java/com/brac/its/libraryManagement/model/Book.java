@@ -35,7 +35,7 @@ public class Book {
     @JoinColumn(name = "publisher_id", referencedColumnName = "id")
     private Publisher publisherDetails;
 
-    public Book(){
+    public Book() {
 
     }
 
@@ -51,36 +51,47 @@ public class Book {
     public Integer getId() {
         return id;
     }
+
     public String getName() {
         return name;
     }
+
     public String getAuthor() {
         return author;
     }
+
     public String getPublisher() {
         return publisher;
     }
+
     public int getCopies() {
         return copies;
     }
+
     public SystemUser getCreatedBy() {
         return this.createdBy;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public void setAuthor(String author) {
         this.author = author;
     }
+
     public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
+
     public void setCopies(int copies) {
         this.copies = copies;
     }
+
     public void setCreatedBy(SystemUser createdBy) {
         this.createdBy = createdBy;
     }
