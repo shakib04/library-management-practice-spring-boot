@@ -1,8 +1,7 @@
 package com.brac.its.libraryManagement.unitTest;
 
-import com.brac.its.libraryManagement.LibraryManagementApplication;
 import com.brac.its.libraryManagement.repository.BookRepository;
-import com.brac.its.libraryManagement.sevice.BookService;
+import com.brac.its.libraryManagement.service.BookService;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BookServiceUT {

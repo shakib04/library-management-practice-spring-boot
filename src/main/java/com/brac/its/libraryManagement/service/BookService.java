@@ -1,4 +1,4 @@
-package com.brac.its.libraryManagement.sevice;
+package com.brac.its.libraryManagement.service;
 
 import com.brac.its.libraryManagement.model.SystemUser;
 import com.brac.its.libraryManagement.runtimeExceptions.InvalidDataException;
@@ -19,6 +19,13 @@ public class BookService {
 
     @Autowired
     BookRepository bookRepository;
+
+    private final MyTestService myTestService;
+
+    public BookService(MyTestService myTestService) {
+        this.myTestService = myTestService;
+    }
+
 
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<>();

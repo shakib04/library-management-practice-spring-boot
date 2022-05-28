@@ -1,4 +1,4 @@
-package com.brac.its.libraryManagement.sevice;
+package com.brac.its.libraryManagement.service;
 
 import com.brac.its.libraryManagement.model.Publisher;
 

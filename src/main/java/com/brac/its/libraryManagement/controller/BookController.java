@@ -1,7 +1,7 @@
 package com.brac.its.libraryManagement.controller;
 
 import com.brac.its.libraryManagement.model.Book;
-import com.brac.its.libraryManagement.sevice.BookService;
+import com.brac.its.libraryManagement.service.BookService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

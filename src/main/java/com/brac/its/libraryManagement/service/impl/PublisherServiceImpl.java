@@ -1,7 +1,7 @@
-package com.brac.its.libraryManagement.sevice.impl;
+package com.brac.its.libraryManagement.service.impl;
 
 import com.brac.its.libraryManagement.model.Publisher;
-import com.brac.its.libraryManagement.sevice.PublisherService;
+import com.brac.its.libraryManagement.service.PublisherService;
 
 import java.util.List;
 import java.util.Optional;
