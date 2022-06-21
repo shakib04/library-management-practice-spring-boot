@@ -18,7 +18,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.jayway.jsonpath:json-path'
 	implementation 'commons-io:commons-io:2.4'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	//implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-web'
+	implementation 'org.springframework.security:spring-security-config'
 //	implementation 'org.projectlombok:lombok:1.18.22'
 //	//LOMBOK Dependencies
 	annotationProcessor 'org.projectlombok:lombok'
