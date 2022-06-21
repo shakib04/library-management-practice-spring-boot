@@ -1,5 +1,6 @@
 package com.brac.its.libraryManagement;
 
+import com.brac.its.libraryManagement.config.LibraryAppSecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 public class LibraryManagementApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LibraryManagementApplication.class, args);
+		SpringApplication.run(new Class[]{LibraryManagementApplication.class, LibraryAppSecurityConfig.class}, args);
 	}
 
 	@Bean
