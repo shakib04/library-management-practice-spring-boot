@@ -1,0 +1,15 @@
+<h2>Login Page</h2>
+
+<div th:if="${param.error}"> Invalid Username or password</div>
+
+<div th:if="${param.logout}">You have logged out</div>
+
+<form th:action="@{/doLogin}" method="post">
+    <input type="text" name="username" placeholder="username"> <br/>
+    <input type="text" name="password" placeholder="password"> <br/>
+    <input type="submit" value="login" >
+</form>
+
+<div>
+    <a th:href="@{/login}">Login</a>
+</div>

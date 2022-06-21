@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 public class HomeController {
 
-    @GetMapping("/index")
+    @GetMapping("")
     public String index(){
-        return "product/index.html";
+        return "index.html";
     }
 
-    @GetMapping("/login")
-    public String login(){
-        return "product/index.html";
+    @GetMapping("/index")
+    public String indexV2(){
+        return "index.html";
     }
 }

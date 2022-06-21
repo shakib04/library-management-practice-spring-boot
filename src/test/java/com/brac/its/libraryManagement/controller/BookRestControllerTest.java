@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Log
 @TestPropertySource(locations = "classpath:application.properties")
 
- class BookControllerTest {
+ class BookRestControllerTest {
 
     @Autowired
     private MockMvc restConfigMockMvc;
