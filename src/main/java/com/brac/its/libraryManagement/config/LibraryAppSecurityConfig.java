@@ -19,14 +19,26 @@ public class LibraryAppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("USER");
     }
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-        .antMatchers("/delete/**")
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login").permitAll();
+    }
+
+    // module-2, lesson-3 => authorize specific url, here /delete needs admin authorization
+    /*@Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/delete/**")
                 .hasAnyAuthority("ADMIN", "ADMIN2")
                 .and()
                 .formLogin()
                 .and()
                 .httpBasic();
-    }
+    }*/
 }
