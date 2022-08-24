@@ -18,7 +18,7 @@ import java.util.Optional;
 public class BookService {
 
     @Autowired
-    BookRepository bookRepository;
+    private BookRepository bookRepository;
 
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<>();
