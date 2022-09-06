@@ -39,6 +39,12 @@ public class Book {
 
     }
 
+    public Book(@NonNull String name, @NonNull String publisher, String author) {
+        this.name = name;
+        this.publisher = publisher;
+        this.author = author;
+    }
+
     public Book(Integer id, String name, String author, String publisher, int copies, SystemUser createdBy) {
         this.id = id;
         this.name = name;

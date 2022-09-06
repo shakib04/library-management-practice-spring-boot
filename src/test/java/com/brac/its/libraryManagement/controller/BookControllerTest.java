@@ -73,6 +73,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     }
 
     @Test
+    @Transactional
     public void getBooksTest() throws Exception{
 
         Book b1 = new Book(null, "Book 101", "Rakib", "Rock Pubs",10, user);

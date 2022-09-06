@@ -14,6 +14,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
      List<Book> findBookByName(String name);
 
+     List<Book> findBookByNameLikeOrNameIsNull(String name);
+
      @Query(value = "select model.copies from Book model where model.id = 1")
      int getBookCopies();
 }

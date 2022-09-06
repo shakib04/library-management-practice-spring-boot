@@ -31,9 +31,6 @@ public class BookServiceUT {
         MockitoAnnotations.openMocks(this);
     }
 
-
-
-
     @Test
     public void checkWithOldBook(){
         boolean result = bookService.isOldBook(OLD_BOOK_ISBN);

@@ -8,6 +8,9 @@ import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 
@@ -21,7 +24,7 @@ class BookMvcControllerTest {
     @Mock
     private BookServiceV2 bookServiceV2;
     @InjectMocks
-    private BookMvcController bookController;
+    private BookMvcController bookMvcController;
     @Mock
     private Model model;
     private List<Book> bookList;
@@ -41,7 +44,7 @@ class BookMvcControllerTest {
         ArgumentCaptor<List<Book>> argumentCaptor = ArgumentCaptor.forClass(List.class);
 
         // when
-        String result = bookController.test(model);
+        String result = bookMvcController.test(model);
 
         // then
         assertEquals("index", result);
@@ -52,5 +55,11 @@ class BookMvcControllerTest {
 
         List<Book> outputFromController = argumentCaptor.getValue();
         assertEquals(1, outputFromController.size());
+    }
+
+    @Test
+    void testMockMVC() throws Exception {
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(bookMvcController).build();
+        //mockMvc.perform(MockMvcRequestBuilders.get("/"))
     }
 }

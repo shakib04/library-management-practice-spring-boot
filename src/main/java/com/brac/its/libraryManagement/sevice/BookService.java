@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,7 @@ public class BookService {
     }
 
     public boolean isOldBook(String isbn){
+        isbn = isbn.toLowerCase(Locale.ROOT);
         if (isbn.startsWith("z")){
             return true;
         }
