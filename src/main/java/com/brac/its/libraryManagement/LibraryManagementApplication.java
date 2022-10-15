@@ -1,6 +1,11 @@
 package com.brac.its.libraryManagement;
 
+import com.brac.its.libraryManagement.model.ToDo;
+import com.brac.its.libraryManagement.model.YoutubeChannel;
+import com.brac.its.libraryManagement.util.HibernateUtil;
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -21,6 +26,20 @@ public class LibraryManagementApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LibraryManagementApplication.class, args);
+		HibernateUtil.getSessionFactory();
+//		YoutubeChannel youtubeChannel = new YoutubeChannel();
+//		youtubeChannel.setChannelName("Java Guides");
+//		Transaction transaction = null;
+//		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+//			// start a transaction
+//			transaction = session.beginTransaction();
+//			// save the student objects
+//			session.save(youtubeChannel);
+//			// commit transaction
+//			transaction.commit();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	@Bean
